@@ -4,7 +4,7 @@
 ## Solution
 
 I use ***SQL SERVER*** to do this project
-View the complete syntax here.
+View the complete syntax [here](https://github.com/gulixeliota/8_Week_SQL_Challenge/blob/main/Week1_Danny's_Dinner/source_code/Solutions.sql).
 
 ***
 
