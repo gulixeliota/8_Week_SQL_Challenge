@@ -3,7 +3,7 @@
 
 ## BONUS QUESTIONS
 
-View the complete syntax here.
+View the complete syntax [here](https://github.com/gulixeliota/8_Week_SQL_Challenge/blob/main/Week1_Danny's_Dinner/source_code/Bonus%20Questions.sql).
 
 **Join All The Things**
 
