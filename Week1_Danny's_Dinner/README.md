@@ -22,7 +22,7 @@ Danny wants to use the data to answer a few simple questions about his customers
 
 ## Case Study Questions
 
-View my solution here
+View my solution [here](https://github.com/gulixeliota/8_Week_SQL_Challenge/blob/main/Week1_Danny's_Dinner/Case%20Study%20Questions.md)
 
 1. What is the total amount each customer spent at the restaurant?
 2. How many days has each customer visited the restaurant?
@@ -37,7 +37,7 @@ View my solution here
 
 ## Bonus Questions
 
-View my solution here
+View my solution [here](https://github.com/gulixeliota/8_Week_SQL_Challenge/blob/main/Week1_Danny's_Dinner/Bonus%20Questions.md)
 
 #### Join All The Things
 Recreate the following table output using the available data:
