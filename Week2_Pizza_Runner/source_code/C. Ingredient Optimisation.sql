@@ -23,16 +23,9 @@ DROP TABLE IF EXISTS ##pizza_recipes
 SELECT pizza_id,
        CAST(TRIM(value) AS INT) AS topping_id
 INTO   ##pizza_recipes
-FROM   pizza_recipes 
+FROM   pizza_recipes
 CROSS  APPLY STRING_SPLIT(CAST(toppings AS varchar(20)), ',')
 
--- create global temp table ##clean_pizza_toppings
-SELECT	p.pizza_id, p.topping_id, pt.topping_name
-INTO ##clean_pizza_toppings
-FROM 
-     pizza_recipes1 as p
-JOIN pizza_toppings as pt
-     ON p.topping_id = pt.topping_id;
 
 
 --1. What are the standard ingredients for each pizza?
@@ -53,7 +46,7 @@ GROUP BY t.pizza_id
 --2. What was the most commonly added extra?
 SELECT TOP 1
 	pt.topping_name,
-	COUNT(e.extras) AS cnt_extras
+	COUNT(e.extras) AS most_common_extra
 FROM ##extras e
 JOIN pizza_toppings pt ON pt.topping_id =  e.extras
 WHERE e.extras != 0
@@ -62,10 +55,9 @@ ORDER BY COUNT(e.extras) DESC
 
 
 --3. What was the most common exclusion?
-
 SELECT TOP 1
 	pt.topping_name,
-	COUNT(e.exclusions) AS cnt_extras
+	COUNT(e.exclusions) AS most_common_exclusion
 FROM ##exclusions e
 JOIN pizza_toppings pt ON pt.topping_id =  e.exclusions
 WHERE e.exclusions != 0
@@ -117,67 +109,34 @@ ON    c.pizza_id = n.pizza_id
 
 --5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the customer_orders table and add a 2x in front of any relevant ingredients
 		--For example: "Meat Lovers: 2xBacon, Beef, ... , Salami"
-SELECT * FROM ##customer_orders_temp
-SELECT * FROM ##pizza_recipes
-SELECT * FROM pizza_toppings
-SELECT * FROM ##extras
-SELECT * FROM ##exclusions
-
-WITH detailed_order AS (
-		SELECT 
-			o.order_id,
-			o.pizza_id,
-			o.exclusions,
-			o.extras,
-			pr.topping_id,
-			pt.topping_name,
-			o.record_id,
-			CAST(TRIM(value) AS INT) AS extras_id
-		FROM ##customer_orders_temp o
-		JOIN ##pizza_recipes pr ON pr.pizza_id = o.pizza_id
-		JOIN pizza_toppings pt ON pt.topping_id = pr.topping_id
-			CROSS APPLY STRING_SPLIT(cast(o.extras as varchar(20)), ',')
-),
- A AS (
-		SELECT 
-			order_id,
-			pizza_id,
-			CAST(TRIM(value) AS INT) AS exclusions_id,
-			extras_id,
-			topping_id,
-			topping_name,
-			record_id
-		FROM detailed_order
-			CROSS APPLY STRING_SPLIT(cast(exclusions as varchar(20)), ',')
-),
-B AS (SELECT 
-	order_id,
-	pizza_id,
-	exclusions_id,
-	extras_id,
-	CASE WHEN exclusions_id = topping_id THEN ''
-	WHEN extras_id = topping_id THEN CONCAT('2x',topping_name)
-	ELSE topping_name END AS topping_name
-FROM A)
+WITH detail_order AS (
 SELECT
-	order_id, B.pizza_id, exclusions_id, extras_id, 
-	CONCAT(pn.pizza_name,': ',STRING_AGG(topping_name,', ')) as ingredients_list
-FROM B
-JOIN pizza_names pn ON B.pizza_id = pn.pizza_id
-GROUP BY order_id, B.pizza_id, exclusions_id, extras_id,pn.pizza_name,topping_name
+	o.record_id,
+	pn.pizza_name,
+	pt.topping_name,
+	CASE WHEN pt.topping_id IN (SELECT extras FROM ##extras ext WHERE ext.record_id = o.record_id) THEN '2x' ELSE '' END AS extra
+FROM ##customer_orders_temp o
+JOIN pizza_names pn ON pn.pizza_id = o.pizza_id
+JOIN ##pizza_recipes pr ON pr.pizza_id = o.pizza_id
+JOIN pizza_toppings pt ON pt.topping_id = pr.topping_id
+WHERE pt.topping_id NOT IN (SELECT exclusions FROM ##exclusions exc WHERE exc.record_id = o.record_id)
+)
+SELECT 
+	o.order_id,
+	o.customer_id,
+	o.pizza_id,
+	o.exclusions,
+	o.extras,
+	o.order_time,
+	CONCAT(do.pizza_name,': ',STRING_AGG(CONCAT(do.extra,do.topping_name),', ')) AS ingredient_detail
+FROM ##customer_orders_temp o
+JOIN detail_order do ON o.record_id = do.record_id
+GROUP BY o.record_id, o.order_id, o.customer_id, o.pizza_id, o.exclusions, o.extras, o.order_time, do.pizza_name
 
 
 
 
 
-SELECT
-	order_id,
-	pizza_id,
-	exclusions,
-	extras,
-	STRING_AGG(topping_name,',') 
-FROM detailed_order
-GROUP BY order_id, pizza_id, exclusions, extras
 
 
 --6. What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?
