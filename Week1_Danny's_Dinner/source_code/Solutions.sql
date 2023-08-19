@@ -30,7 +30,7 @@ FROM
 		s.order_date,
 		RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date) AS rnk
 	FROM menu m
-	JOIN sales s ON m.product_id = s.product_id) AS sub
+	JOIN sales s ON m.product_id = s.product_id) AS rank_date
 WHERE rnk = 1
 
 -- 4. What is the most purchased item on the menu and how many times was it purchased by all customers?
@@ -49,7 +49,7 @@ FROM
 			COUNT(order_date) AS total_purchased_quantity
 		FROM menu m
 		JOIN sales s ON m.product_id = s.product_id
-		GROUP BY m.product_id,m.product_name) AS sub1) AS sub2
+		GROUP BY m.product_id,m.product_name) AS cnt_quantity) AS rank_quantity
 WHERE rnk = 1
 
 -- 5. Which item was the most popular for each customer?
@@ -68,7 +68,7 @@ FROM
 			COUNT(*) AS total_purchased_quantity
 		FROM menu m
 		JOIN sales s ON m.product_id = s.product_id
-		GROUP BY s.customer_id, m.product_id) AS sub1) AS sub2
+		GROUP BY s.customer_id, m.product_id) AS cnt_quantity) AS rank_quantity
 JOIN menu m1 ON sub2.product_id = m1.product_id
 WHERE rnk = 1
 
@@ -104,6 +104,7 @@ WHERE rnk = 1
 WITH CTE AS (
 	SELECT 
 		s.customer_id,
+		mb.join_date,
 		s.order_date,
 		s.product_id
 	FROM sales s
@@ -117,6 +118,7 @@ CTE2 AS (
 	FROM CTE)
 SELECT 
 	customer_id,
+	join_date,
 	order_date,
 	CTE2.product_id,
 	m.product_name
@@ -125,7 +127,7 @@ JOIN menu m ON m.product_id = CTE2.product_id
 WHERE rnk = 1
 
 -- 8. What is the total items and amount spent for each member before they became a member?
-WITH CTE AS (
+WITH price_detailed_table AS (
 	SELECT 
 		s.customer_id,
 		s.order_date,
@@ -140,7 +142,7 @@ SELECT
 	customer_id,
 	COUNT(product_id) AS total_items,
 	SUM(price) AS total_amount
-FROM CTE
+FROM price_detailed_table
 GROUP BY customer_id
 
 -- 9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
@@ -167,7 +169,8 @@ WITH CTE AS (
 			ELSE m.price*10 END as total_points
 	FROM sales s
 	JOIN menu m ON m.product_id = s.product_id
-	JOIN members mb ON mb.customer_id = s.customer_id)
+	JOIN members mb ON mb.customer_id = s.customer_id
+)
 
 SELECT 
 	customer_id,
