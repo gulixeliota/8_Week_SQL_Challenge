@@ -11,3 +11,8 @@ JOIN   plans AS p
 ON     s.plan_id = p.plan_id
 WHERE  s.customer_id IN (1,2,11,13,15,16,18,19)
 ```
+
+
+***
+
+📄Next Section: [B. Data Analysis Questions](https://github.com/gulixeliota/8_Week_SQL_Challenge/blob/main/Week3_Foodie-Fi/B.%20Data%20Analysis%20Questions.md) ⏭
