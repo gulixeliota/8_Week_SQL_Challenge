@@ -44,7 +44,7 @@ GROUP BY number_of_pizzas
 
 SELECT
 	o.customer_id,
-	ROUND(AVG(CAST(ro.distance AS float)),2) AS avg_distance
+	ROUND(AVG(CAST(ro.distance AS float)),2) AS avg_distance(km)
 FROM ##customer_orders_temp o 
 INNER JOIN ##runner_orders_temp ro ON o.order_id = ro.order_id 
 WHERE ro.cancellation NOT LIKE '%Cancellation%'
@@ -81,7 +81,7 @@ FROM
 WHERE runner_id = 2;
 
 --7. What is the successful delivery percentage for each runner?
--- Cách 1:
+-- Solution 1:
 SELECT runner_id,
        COUNT(order_id) AS total_orders,
        COUNT(pickup_time) AS successful_deliveries,
@@ -91,7 +91,7 @@ GROUP BY runner_id
 
 
 
--- Cách 2:
+-- Solution 2:
 WITH total_successfull_delivey AS ( 
 	SELECT 
 		runner_id,

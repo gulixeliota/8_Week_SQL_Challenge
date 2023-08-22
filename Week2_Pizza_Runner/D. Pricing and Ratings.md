@@ -4,14 +4,14 @@
 
 # Solution
 
-- View the complete syntax [here]().
+- View the complete syntax [here](https://github.com/gulixeliota/8_Week_SQL_Challenge/blob/main/Week2_Pizza_Runner/source_code/D.%20Pricing%20and%20Ratings.sql).
 
 ***
 
 ## D. Pricing and Ratings
 
 
-**1.If a Meat Lovers pizza costs $12 and Vegetarian costs $10 and there were no charges for changes - how much money has Pizza Runner made so far if there are no delivery fees?**
+**1.If a Meat Lovers pizza costs 12 USD and Vegetarian costs 10 USD 0 and there were no charges for changes - how much money has Pizza Runner made so far if there are no delivery fees?**
 
 ```sql
 SELECT 
@@ -30,6 +30,7 @@ WHERE ro.pickup_time is NOT NULL
 |-------------------|
 | 138               |
 
+=> Total money **without additional charge for any pizza extras** that Pizza Runner made is **$138**
 
 ***
 
@@ -78,6 +79,8 @@ JOIN extras_num ex ON df.pizza_id = ex.pizza_id
 |-------------------|
 | 142               |
 
+Total money **with additional charge for any pizza extras** that Pizza Runner made is **$142**
+
 ***
 
 
@@ -108,9 +111,17 @@ VALUES (1, 5, 'perfect', '2020-01-01 20:00:00.000'),
 
 *Answer:*
 
-| **topping_name** | **most_common_exclusion** |
-|------------------|---------------------------|
-| Cheese           | 4                         |
+| **order_id** | **rating** | **comment**                 | **rating_date**         |
+|--------------|------------|-----------------------------|-------------------------|
+| 1            | 5          | perfect                     | 2020-01-01 20:00:00.000 |
+| 2            | 5          |                             | 2020-01-01 20:00:00.000 |
+| 3            | 3          | runner got lost             | 2020-01-03 02:02:00.000 |
+| 4            | 4          |                             | 2020-01-04 16:25:12.000 |
+| 5            | 2          | came late and food was cold | 2020-01-08 23:03:00.000 |
+| 7            | 5          | came sooner than expected   | 2020-01-08 22:55:00.000 |
+| 8            | 4          |                             | 2020-01-10 01:00:00.000 |
+| 10           | 4          |                             | 2020-01-11 20:00:00.000 |
+
 
 ***
 
@@ -203,6 +214,10 @@ FROM finance
 
 
 ***
+📄Back to Overview: [Case Study #2: Pizza Runner](https://github.com/gulixeliota/8_Week_SQL_Challenge/blob/main/Week2_Pizza_Runner/README.md) ⏭
 
+📄Back to Previous Challenge: [Week 1: Danny's Diner](https://github.com/gulixeliota/8_Week_SQL_Challenge/tree/main/Week1_Danny's_Dinner) ⏭
+
+📄Next Challenge: [Week 3: Foodie-Fi](https://github.com/gulixeliota/8_Week_SQL_Challenge/tree/main/Week3_Foodie-Fi) ⏭
 
 

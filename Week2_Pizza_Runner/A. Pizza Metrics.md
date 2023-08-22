@@ -1,9 +1,9 @@
 # <p align="center" style="margin-top: 0px;">🍕 Case Study #2 - Pizza Runner 🍕
 
+<p align="left"> Using Microsoft SQL Server </p>
 
 ## Solution
 
-- I use ***SQL SERVER*** to do this project
 - View the complete syntax [here]().
 
 ***
@@ -24,6 +24,7 @@ FROM ##customer_orders_temp
 |-------------------|
 | 14                |
 
+=> There are 14 pizzas ordered at the restaurant
 
 ***
 
@@ -46,9 +47,11 @@ FROM ##customer_orders_temp
 |------------------------|
 | 10                     |
 
-
+=> There are 10 unique orders at the restaurant
 
 ***
+
+
 
 
 
@@ -73,9 +76,13 @@ GROUP BY runner_id
 | 2             | 3                           |
 | 3             | 1                           |
 
-
+- Runner 1 delivers 4 pizzas.
+- Runner 2 delivers 3 pizzas.
+- Runner 3 delivers 1 pizza.
 
 ***
+
+
 
 
 
@@ -100,6 +107,8 @@ GROUP BY o.pizza_id
 | 1            | 9                         |
 | 2            | 3                         |
 
+- 9 Meat Lovers pizzas have been delivered.
+- 3 Vegetarian pizzas have been delivered.
 
 
 ***
@@ -132,7 +141,11 @@ ORDER BY o.customer_id, n.pizza_name
 | 104             | Meatlovers     | 3                       |
 | 105             | Vegetarian     | 1                       |
 
-
+- Customer 101 ordered 1 Vegetarian pizzas and 2 MeatLovers pizza.
+- Customer 102 ordered 1 Vegetarian pizzas and 2 MeatLovers pizza.
+- Customer 103 ordered 1 Vegetarian pizzas and 3 MeatLovers pizza.
+- Customer 104 ordered 3 MeatLovers pizzas.
+- Customer 105 ordered 1 Vegetarian pizza
 
 ***
 
@@ -167,6 +180,7 @@ GROUP BY o.order_id) AS pizza_per_order
 |-------------------|
 | 3                 |
 
+=> Maximum 3 pizzas delivered in a single order.
 
 
 ***
@@ -209,7 +223,11 @@ GROUP BY o.customer_id
 | 104             | 2                     | 1                   |
 | 105             | 1                     | 0                   |
 
-
+- Customer 1 ordered 2 pizzas without change
+- Customer 2 ordered 3 pizzas without change
+- Customer 3 ordered 3 pizzas with change
+- Customer 4 ordered 2 pizzas with change and 1 pizza without change
+- Customer 5 ordered 1 pizza with change
 
 ***
 
@@ -240,10 +258,9 @@ WHERE ro.cancellation NOT LIKE '%Cancellation%'
 |-----------------------|
 | 1                     |
 
+=> 1 pizza delivered had both exclusions and extras.
 
 ***
-
-
 
 
 
@@ -276,6 +293,13 @@ ORDER BY DATEPART(hour FROM order_time)
 | 21 - 22         | 3                      |
 | 23 - 24         | 3                      |
 
+- From 11 to 12, 1 pizza ordered.
+- From 13 to 14, 3 pizzas ordered.
+- From 18 to 19, 3 pizzas ordered.
+- From 19 to 20, 1 pizza ordered.
+- From 21 to 22, 3 pizzas ordered.
+- From 23 to 24, 3 pizzas ordered.
+=> 13, 18, 21 and 23 are time frames ordered the most pizzas in a day
 
 ***
 
@@ -313,3 +337,5 @@ ORDER BY DATEPART(weekday FROM order_time)
 
 
 ***
+
+📄Next Section: [B. Runner and Customer Experience](https://github.com/gulixeliota/8_Week_SQL_Challenge/blob/main/Week2_Pizza_Runner/B.%20Runner%20and%20Customer%20Experience.md) ⏭

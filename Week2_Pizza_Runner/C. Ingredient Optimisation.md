@@ -8,10 +8,15 @@
 
 ***
 
+
+
+
 ## C. Ingredient Optimisation
 
+Before starting this section, I will create global temp table for using. Besides, I have some changes about change data type of somes columns. I put these change in [Data Cleaning and Transformation]
 
--- create global temp table ##exclusions
+**a. Table `##exclusions`**
+
 ```sql
 DROP TABLE IF EXISTS ##exclusions
 SELECT 
@@ -22,6 +27,7 @@ FROM ##customer_orders_temp o
 	CROSS APPLY STRING_SPLIT(CAST(exclusions AS varchar(20)),',')
 ```
 
+**b. Table `##extras`**
 ```sql
 -- create global temp table ##extras
 DROP TABLE IF EXISTS ##extras
@@ -33,6 +39,7 @@ FROM ##customer_orders_temp
 	CROSS APPLY STRING_SPLIT(CAST(extras AS varchar(20)),',')
 ```
 
+**c. Table `##pizza_recipes`**
 ```sql
 -- create global temp table ##pizza_recipes
 DROP TABLE IF EXISTS ##pizza_recipes
@@ -46,7 +53,7 @@ CROSS  APPLY STRING_SPLIT(CAST(toppings AS varchar(20)), ',')
 
 
 
-
+## Questions
 
 **1. What are the standard ingredients for each pizza?**
 
@@ -98,6 +105,7 @@ ORDER BY COUNT(e.extras) DESC
 |------------------|-----------------------|
 | Bacon            | 4                     |
 
+=> The most common added : Bacon
 
 ***
 
@@ -124,6 +132,8 @@ ORDER BY COUNT(e.exclusions) DESC
 | **topping_name** | **most_common_exclusion** |
 |------------------|---------------------------|
 | Cheese           | 4                         |
+
+The most common exclusion topping is Cheese
 
 ***
 
@@ -179,7 +189,7 @@ ON    c.pizza_id = n.pizza_id
 
 *Answer:*
 
-| **order_id** | **customer_id** | **pizza_id** | **exclusions** | **extras** | **order_time**          | **order_item**|                                                  |
+| **order_id** | **customer_id** | **pizza_id** | **exclusions** | **extras** | **order_time**          | **order_item**                                                  |
 |--------------|-----------------|--------------|----------------|------------|-------------------------|-----------------------------------------------------------------|
 | 1            | 101             | 1            | 0              | 0          | 2020-01-01 18:05:02.000 | Meatlovers                                                      |
 | 2            | 101             | 1            | 0              | 0          | 2020-01-01 19:00:52.000 | Meatlovers                                                      |
@@ -195,6 +205,7 @@ ON    c.pizza_id = n.pizza_id
 | 9            | 103             | 1            | 4              | 1, 5       | 2020-01-10 11:22:59.000 | Meatlovers - Exclude Cheese - Extra Bacon, Chicken              |
 | 10           | 104             | 1            | 0              | 0          | 2020-01-11 18:34:49.000 | Meatlovers                                                      |
 | 10           | 104             | 1            | 2, 6           | 1, 4       | 2020-01-11 18:34:49.000 | Meatlovers - Exclude BBQ Sauce, Mushrooms - Extra Bacon, Cheese |
+
 
 
 ***
@@ -331,3 +342,5 @@ ORDER BY last_topping_num DESC
 | 7            | Onions          | 4            | 0              | 0          | 4              |
 
 ***
+
+📄Next Section: [D. Pricing and Ratings](https://github.com/gulixeliota/8_Week_SQL_Challenge/blob/main/Week2_Pizza_Runner/D.%20Pricing%20and%20Ratings.md) ⏭

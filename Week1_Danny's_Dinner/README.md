@@ -82,4 +82,5 @@ Danny also requires further information about the ranking of customer products, 
 ***
 
 
+📄Next Section: [A. Case Study Questions](https://github.com/gulixeliota/8_Week_SQL_Challenge/blob/main/Week1_Danny's_Dinner/A.%20Case%20Study%20Questions.md) ⏭
 

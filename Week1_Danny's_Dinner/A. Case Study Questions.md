@@ -368,3 +368,5 @@ GROUP BY customer_id
 - Total points for Customer B is 940.
 
 ***
+
+📄Next Section: [B. Bonus Questions](https://github.com/gulixeliota/8_Week_SQL_Challenge/blob/main/Week1_Danny's_Dinner/A.%20Case%20Study%20Questions.md) ⏭
